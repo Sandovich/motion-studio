@@ -32,7 +32,7 @@ git clone https://github.com/Sandovich/motion-studio && bash motion-studio/scrip
 | `references/remotion-guide.md` | Полный практический справочник Remotion: проект, анимация, переходы, медиа, кириллица, звук, субтитры, эффекты, рендер, прозрачность, найденные баги |
 | `references/motion-design-system.md` | MOTION.md и brand.md, тайминги по умолчанию, 13 правил качества, аудит «как у Apple», 21st.dev, как давать правки |
 | `references/techniques.md` | Каталог приёмов и 8 стилей-пресетов из рилсов |
-| `references/reels-breakdown.md` | Покадровый разбор 10 рилсов: промпты, команды, приёмы |
+| `references/reels-breakdown.md` | Покадровый разбор 11 рилсов: промпты, команды, приёмы |
 | `references/recreation-guide.md` | Как повторить чужой ролик в новом стиле |
 | `references/sound-design.md` | Звуковой дизайн: щелчки печати синхронно с текстом, whoosh/pop/hit/ding/riser, музыка, громкости, мастер −14 LUFS |
 | `references/spec-ad-template.md` | Шаблон спек-рекламы бренда (голос, музыка, SFX, мастер) |
