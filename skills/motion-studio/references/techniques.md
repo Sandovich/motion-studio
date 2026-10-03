@@ -64,6 +64,7 @@
 - **3D-титры** (Three.js, ночная улица, неоновые вывески, bloom) — title-sequence-3d.
 
 ## Звук
+- Полный справочник и готовые компоненты — `sound-design.md` (свои звуки: клавиши ×4, whoosh, pop, hit, ding, riser, музыкальная подложка).
 - Remotion: готовые SFX `https://remotion.media/whoosh.wav`, `switch.wav`, `mouse-click.wav`, `ding.wav`, `shutter-modern.wav`, `page-turn.wav`, `whip.wav`… + больше: github.com/kapishdima/soundcn.
 - Музыка: Mixkit (бесплатно, Claude сам ищет и садит смены картинки на BPM-сетку).
 - Правила: whoosh в каждое слово/титр, hit на каждое приземление; музыка ≥15 дБ под голосом; мастер −14 LUFS / −1 dBTP; без звука эксплейнер «недоделан».

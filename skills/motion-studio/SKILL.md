@@ -29,17 +29,18 @@ description: Полный скилл моушн-графики КОДОМ чер
 | Горизонталь → готовый рилс | ffmpeg | `references/export-qa.md` §2 |
 | Повторить чужой ролик в своём стиле | любой | `references/recreation-guide.md` + prompts.md §8 |
 | Спек-реклама бренда со звуком | любой | `references/spec-ad-template.md` |
+| Звук: печать, whoosh, pop, hit, ding, музыка, мастер | Remotion | `references/sound-design.md` |
 По умолчанию — **Remotion** (если не сказано иное). Все рецепты Charlie написаны под «один HTML с `window.seek(seconds)`»; в Remotion то же самое = композиция, где всё вычисляется из `useCurrentFrame()` — рецепт (сцены, тайминги, правила, проверки) переносится 1:1.
 
 ## 2. Порядок работы (не пропускать)
 1. **Бренд.** Есть `MOTION.md` (+ `brand.md`)? Нет → процесс brand-intake (`references/motion-design-system.md` §1, шаблон `templates/MOTION.template.md`): интервью в 2 пакета + 3–5 кадров-референсов → MOTION.md с ASK ME вместо догадок → правило «read MOTION.md first» в CLAUDE.md проекта. Без MOTION.md результат не называть «в бренде».
 2. **Бриф и beat sheet** (`templates/BRIEF.template.md`): сцены с секундами, дословный текст, звук. Показать и **ждать «да»**. Все цифры/имена/даты — только из списка фактов; нет данных — спросить.
-3. **Проект.** Remotion: `npx create-video@latest --yes --blank --no-tailwind <name>` → `npm i` → `npx remotion add @remotion/google-fonts` → скопировать `templates/remotion/components.tsx` в `src/components/index.tsx` → открыть Studio (`npm run dev`).
-4. **Сборка.** Первые 10 с — в 2–3 вариантах стиля, выбрать, достроить. Каждая сцена — свой компонент; `Series`/`TransitionSeries`; `premountFor={fps}`.
+3. **Проект.** Remotion: `npx create-video@latest --yes --blank --no-tailwind <name>` → `npm i` → `npx remotion add @remotion/google-fonts` → скопировать `templates/remotion/components.tsx` в `src/components/index.tsx` + звук: `npx remotion add @remotion/media`, `templates/remotion/sfx.tsx` → `src/components/sfx.tsx`, `make-sfx.mjs` и `master-audio.sh` → `scripts/`, `node scripts/make-sfx.mjs` → открыть Studio (`npm run dev`).
+4. **Сборка.** Первые 10 с — в 2–3 вариантах стиля, выбрать, достроить. Каждая сцена — свой компонент; `Series`/`TransitionSeries`; `premountFor={fps}`. **Звук — сразу, не дожидаясь просьбы** (`references/sound-design.md`): `Sfx`/`TypingSfx`/`MusicBed` от тех же кадров, что анимация.
 5. **Проверка кадров глазами** (`references/export-qa.md` §1): кадр из середины каждой сцены → лист → смотреть. Исправлять реальное, хранить прошлую версию.
 6. **Аудит движения** apple-design: «ранжированный список всего, что выглядит неправильно, с худшего» → фиксы по одному (`motion-design-system.md` §4).
 7. **Рендер MP4 — только по явной просьбе.** До этого — превью в Studio.
-8. **Сдача:** путь к файлу + 3 контрольных кадра; для соцсетей — проверки `export-qa.md` §2 (h264, yuv420p, bt709, tv-range, faststart, aac).
+8. **Сдача:** мастер звука `bash scripts/master-audio.sh raw.mp4 final.mp4` (−14 LUFS, ≤ −1 dBTP) + путь к файлу + 3 контрольных кадра; для соцсетей — проверки `export-qa.md` §2 (h264, yuv420p, bt709, tv-range, faststart, aac).
 9. **Правки** — по одной («Fix one thing only…», prompts.md §7), остальное не трогать.
 
 ## 3. Правила (кратко; полностью — `motion-design-system.md` §3)
@@ -57,12 +58,13 @@ description: Полный скилл моушн-графики КОДОМ чер
 | Каталог приёмов и 8 стилей-пресетов из рилсов (+ какой есть в коде) | `references/techniques.md` |
 | Покадровый разбор 10 рилсов с промптами и командами | `references/reels-breakdown.md` |
 | Повтор чужого ролика: покадровый анализ → таймлайн → редизайн → грейд | `references/recreation-guide.md` |
+| Звуковой дизайн: компоненты Sfx/TypingSfx/WordSfx/MusicBed, свой набор звуков, карта «событие → звук», громкости, мастер, проверка | `references/sound-design.md` |
 | Спек-реклама: бриф, голос, музыка, SFX, мастер, порядок, Resolve-проект | `references/spec-ad-template.md` |
 | Проверка кадров, экспорт в рилс, сравнение моделей, GIF-петля, прозрачность, громкость | `references/export-qa.md` |
 | HyperFrames: установка, контракт HTML, 21 воркфлоу, когда он лучше Remotion | `references/hyperframes.md` |
 | Инструменты, установка, что платно, Skillry, связка «5 плагинов» | `references/ecosystem.md` |
 | 13 рецептов + 5 файлов промптов Charlie Hills (MIT) | `references/charlie-motion-graphics/` |
-| Шаблоны MOTION.md и брифа | `templates/` |
+| Шаблоны MOTION.md и брифа; компоненты Remotion, звук (`sfx.tsx`, `make-sfx.mjs`, `master-audio.sh`) | `templates/` |
 | Проверенные компоненты Remotion + 2 демо-композиции | `templates/remotion/components.tsx`, `Showcase.tsx`, `Proof.tsx` |
 
 ## 5. Окружение и подвохи

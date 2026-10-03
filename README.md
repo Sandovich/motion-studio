@@ -6,7 +6,7 @@
 |---|---|
 | [examples/showcase.mp4](examples/showcase.mp4) | [examples/proof.mp4](examples/proof.mp4) |
 
-**Видео-инструкция по установке (38 с):** [examples/tutorial.mp4](examples/tutorial.mp4)
+**Видео-инструкция по установке (38 с, со звуком):** [examples/tutorial.mp4](examples/tutorial.mp4)
 
 ## Установка скилла (1 команда)
 
@@ -34,12 +34,13 @@ git clone https://github.com/Sandovich/motion-studio && bash motion-studio/scrip
 | `references/techniques.md` | Каталог приёмов и 8 стилей-пресетов из рилсов |
 | `references/reels-breakdown.md` | Покадровый разбор 10 рилсов: промпты, команды, приёмы |
 | `references/recreation-guide.md` | Как повторить чужой ролик в новом стиле |
+| `references/sound-design.md` | Звуковой дизайн: щелчки печати синхронно с текстом, whoosh/pop/hit/ding/riser, музыка, громкости, мастер −14 LUFS |
 | `references/spec-ad-template.md` | Шаблон спек-рекламы бренда (голос, музыка, SFX, мастер) |
 | `references/export-qa.md` | Проверка кадров, экспорт в рилс, сравнение моделей, GIF-петля, громкость |
 | `references/hyperframes.md` | Второй движок: контракт HTML, 21 воркфлоу, когда он лучше |
 | `references/ecosystem.md` | Все инструменты, установка, что платно |
 | `references/charlie-motion-graphics/` | 13 рецептов + промпты Charlie Hills (MIT) |
-| `templates/` | MOTION.md, бриф, библиотека проверенных компонентов Remotion и 2 демо |
+| `templates/` | MOTION.md, бриф, библиотека проверенных компонентов Remotion, звук (`sfx.tsx`, `make-sfx.mjs`, `master-audio.sh`) и 2 демо |
 
 ## Remotion-проект в этом репо
 
@@ -49,6 +50,13 @@ npm run dev                                   # Studio — превью
 npx remotion render Showcase out/showcase.mp4 # рендер демо
 ```
 `src/components/index.tsx` — 9 компонентов: BlurWords (пословное проявление), CountUp, DrawPath, SplitFlap (табло), CircleWipe, TypingInput (печать в поле), KaraokeCaptions (субтитры), GlassCard, GlowBackground.
+
+**Звук** (`src/components/sfx.tsx`): `Sfx` (звук в кадр), `TypingSfx` (щелчок клавиши на каждый символ TypingInput + Enter), `WordSfx` (whoosh на слово), `MusicBed` (музыка с fade и приглушением под голос).
+```bash
+node scripts/make-sfx.mjs 40                          # свой набор звуков → public/sfx (синтез кодом, без лицензий)
+npx remotion render Tutorial out/raw.mp4
+bash scripts/master-audio.sh out/raw.mp4 out/final.mp4  # −14 LUFS, пик ≤ −1 dBTP
+```
 
 ## Как пользоваться
 Откройте Claude Code (модель Opus 5.5) и опишите ролик: «сделай 15-секундный моушн-промо для …», «субтитры на мой рилс», «повтори движение этого ролика в моём стиле». Для своего стиля сначала дайте 3–5 кадров-референсов — скилл соберёт MOTION.md.

@@ -277,3 +277,4 @@ export const GlowBackground: React.FC<{ base: string; glow: string; drift?: bool
     <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at ${x}% ${y}%, ${glow} 0%, ${base} 55%)` }} />
   );
 };
+export * from "./sfx";

@@ -101,6 +101,7 @@ const { fontFamily } = loadFont("normal", { weights: ["400","800"], subsets: ["l
 Без `subsets: ["cyrillic"]` русский текст рисуется запасным шрифтом. Локальный шрифт — `@remotion/fonts` `loadFont({family, url: staticFile("x.woff2")})`. Измерение текста/влезания — `@remotion/layout-utils` (`measureText`, `fitText`).
 
 ## 7. Звук
+- **Полностью — `sound-design.md`**: готовые компоненты `Sfx`, `TypingSfx` (щелчки синхронно с TypingInput), `WordSfx`, `MusicBed` (fade + duck), свой набор звуков `node scripts/make-sfx.mjs`, мастер `scripts/master-audio.sh`.
 - Готовые SFX по URL: `https://remotion.media/` + `whoosh.wav`, `whip.wav`, `page-turn.wav`, `switch.wav`, `mouse-click.wav`, `shutter-modern.wav`, `shutter-old.wav`, `ding.wav`, `vine-boom.wav`, `record-scratch.wav`, `yippee.wav`, `snapchat-notification.wav`, `mac-quack.wav`, `windows-xp-error.wav` (и мемные: bruh, anime-wow, wilhelm-scream…). Больше — github.com/kapishdima/soundcn.
 - Музыка: Mixkit (бесплатно) — резать смены картинки по BPM: кадр удара = round(n × 60/BPM × fps).
 - Озвучка: ElevenLabs API (`eleven_multilingual_v2`, ключ `ELEVENLABS_API_KEY`, платно) → mp3 по сценам в public/ → `calculateMetadata` считает длительность сцен по аудио. Локальная альтернатива — Kokoro TTS / HyperFrames `tts`.
