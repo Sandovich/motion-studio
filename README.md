@@ -35,6 +35,7 @@ git clone https://github.com/Sandovich/motion-studio && bash motion-studio/scrip
 | `references/reels-breakdown.md` | Покадровый разбор 11 рилсов: промпты, команды, приёмы |
 | `references/recreation-guide.md` | Как повторить чужой ролик в новом стиле |
 | `references/sound-design.md` | Звуковой дизайн: щелчки печати синхронно с текстом, whoosh/pop/hit/ding/riser, музыка, громкости, мастер −14 LUFS |
+| `references/saint4ai.md` + `references/saint4ai/` | Материалы [saint4ai/reels-pipline-automotaj](https://github.com/saint4ai/reels-pipline-automotaj) (onAI Academy, MIT): 12 стилей монтажа со спикером, 62 приёма, подкаст-нарезка, безопасные зоны Instagram/TikTok, код студии как образец |
 | `references/spec-ad-template.md` | Шаблон спек-рекламы бренда (голос, музыка, SFX, мастер) |
 | `references/export-qa.md` | Проверка кадров, экспорт в рилс, сравнение моделей, GIF-петля, громкость |
 | `references/hyperframes.md` | Второй движок: контракт HTML, 21 воркфлоу, когда он лучше |
@@ -58,8 +59,14 @@ npx remotion render Tutorial out/raw.mp4
 bash scripts/master-audio.sh out/raw.mp4 out/final.mp4  # −14 LUFS, пик ≤ −1 dBTP
 ```
 
+**Проверка текста до рендера** (`src/components/qa.tsx` + `scripts/qa-fit.mjs`, идея и зоны — saint4ai): текст не вылез из блоков и не залез под кнопки Instagram (x 120–840, y 260–1360).
+```bash
+node scripts/qa-fit.mjs Tutorial   # FIT PASS
+node scripts/qa-fit.mjs FitTest    # контроль: обязан дать FIT FAIL
+```
+
 ## Как пользоваться
 Откройте Claude Code (модель Opus 5.5) и опишите ролик: «сделай 15-секундный моушн-промо для …», «субтитры на мой рилс», «повтори движение этого ролика в моём стиле». Для своего стиля сначала дайте 3–5 кадров-референсов — скилл соберёт MOTION.md.
 
 ## Лицензии
-Код и тексты репозитория — для личного использования. Рецепты Charlie Hills — MIT (`references/charlie-motion-graphics/LICENSE`). Remotion бесплатен для частных лиц и команд до 3 человек (remotion.dev/license). Промпты Skillry принадлежат их авторам (ссылки на оригиналы внутри).
+Папка `skills/motion-studio/references/saint4ai/` и идея проверки `qa-fit` — из [saint4ai/reels-pipline-automotaj](https://github.com/saint4ai/reels-pipline-automotaj), автор Alexander (@saint4ai), onAI Academy, лицензия MIT с атрибуцией (`references/saint4ai/LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES.md` сохранены). Код и тексты репозитория — для личного использования. Рецепты Charlie Hills — MIT (`references/charlie-motion-graphics/LICENSE`). Remotion бесплатен для частных лиц и команд до 3 человек (remotion.dev/license). Промпты Skillry принадлежат их авторам (ссылки на оригиналы внутри).

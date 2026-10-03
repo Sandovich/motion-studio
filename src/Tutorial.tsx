@@ -11,6 +11,7 @@ import {
 import {
   BlurWords,
   CircleWipe,
+  FitProbe,
   GlassCard,
   GlowBackground,
   MusicBed,
@@ -73,7 +74,7 @@ const Step: React.FC<{
         fontFamily,
         alignItems: "center",
         justifyContent: "center",
-        padding: 90,
+        padding: "260px 240px 560px 120px",
       }}
     >
       <GlowBackground base={BG} glow={GLOW} />
@@ -126,14 +127,14 @@ const Step: React.FC<{
         />
         {commands.map((c, i) => (
           <Appear key={c} delay={14 + i * 34}>
-            <GlassCard width={900} padding={34}>
+            <GlassCard width={720} padding={34}>
               <div style={{ fontFamily: mono }}>
                 <TypingInput
                   text={c}
                   start={18 + i * 34}
                   cps={26}
-                  width={832}
-                  size={44}
+                  width={652}
+                  size={34}
                   bg="#0B0F1A"
                   color="#E5E7EB"
                   accent={LIME}
@@ -152,7 +153,7 @@ const Step: React.FC<{
                 color: MUTED,
                 textAlign: "center",
                 lineHeight: 1.3,
-                maxWidth: 880,
+                maxWidth: 720,
               }}
             >
               {note}
@@ -165,7 +166,7 @@ const Step: React.FC<{
 };
 
 const InfoCard: React.FC<{ lines: string[] }> = ({ lines }) => (
-  <GlassCard width={900} padding={44}>
+  <GlassCard width={720} padding={44}>
     {lines.map((l, i) => (
       <div
         key={i}
@@ -190,7 +191,7 @@ const Intro: React.FC = () => {
         fontFamily,
         alignItems: "center",
         justifyContent: "center",
-        padding: 90,
+        padding: "260px 240px 560px 120px",
       }}
     >
       <GlowBackground base={BG} glow={GLOW} />
@@ -245,15 +246,20 @@ const Outro: React.FC = () => (
           flexDirection: "column",
           alignItems: "center",
           gap: 40,
-          padding: 90,
+          padding: "260px 240px 560px 120px",
+          width: 1080,
+          height: 1920,
+          boxSizing: "border-box",
+          justifyContent: "center",
+          textAlign: "center",
         }}
       >
-        <div style={{ fontSize: 150, fontWeight: 900, color: BG }}>
+        <div style={{ fontSize: 120, fontWeight: 900, color: BG }}>
           Готово ✓
         </div>
         <div
           style={{
-            fontSize: 52,
+            fontSize: 46,
             fontWeight: 600,
             color: BG,
             textAlign: "center",
@@ -264,7 +270,7 @@ const Outro: React.FC = () => (
         </div>
         <div
           style={{
-            fontSize: 40,
+            fontSize: 30,
             fontWeight: 600,
             color: "#1F2937",
             fontFamily: mono,
@@ -393,6 +399,7 @@ export const Tutorial: React.FC = () => {
           <Outro />
         </Series.Sequence>
       </Series>
+      <FitProbe />
     </>
   );
 };

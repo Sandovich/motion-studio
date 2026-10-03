@@ -14,7 +14,7 @@ ffmpeg -y -i out/frames/element-045.png -i out/frames/element-120.png -i out/fra
 6. Аудит движения скиллом apple-design (см. motion-design-system.md §4).
 
 ## 2. Готовый рилс для Instagram/TikTok (reel-export)
-Вертикаль 1080×1920; горизонтальное видео 16:9 при ширине 1080 = высота 608 → ставить на y 660, заголовок сверху в safe zone (y 360–1420, не в правых 120 px). Оверлей (заголовок, лого на тёмных скруглённых плашках) сверстать в HTML прозрачным PNG.
+Вертикаль 1080×1920; горизонтальное видео 16:9 при ширине 1080 = высота 608 → ставить на y 660, заголовок сверху в safe zone (x 120–840, y 260–1360; проверка — `scripts/qa-fit.mjs`, см. `saint4ai.md`). Оверлей (заголовок, лого на тёмных скруглённых плашках) сверстать в HTML прозрачным PNG.
 ```bash
 ffmpeg -y -i in.mp4 -loop 1 -i overlay.png -f lavfi -i anullsrc=r=48000:cl=stereo -filter_complex \
 "color=c=0x0B0B0F:s=1080x1920:r=30[bg];[0:v]fps=30,scale=1080:-2,setsar=1[v];[bg][v]overlay=0:660:shortest=1[o];[o][1:v]overlay=0:0:shortest=1,scale=out_color_matrix=bt709:out_range=tv,format=yuv420p[out]" \

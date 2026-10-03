@@ -3,6 +3,7 @@ import { MyComposition } from "./Composition";
 import { Proof } from "./Proof";
 import { Showcase } from "./Showcase";
 import { Tutorial } from "./Tutorial";
+import { FitTest } from "./FitTest";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Composition id="FitTest" component={FitTest} durationInFrames={30} fps={30} width={1080} height={1920} />
     </>
   );
 };
