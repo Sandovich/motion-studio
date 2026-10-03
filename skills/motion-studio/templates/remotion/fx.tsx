@@ -1,7 +1,7 @@
 // Библиотека «шоурильных» эффектов (по разборам рилсов 11–12: Dami и Grafigator) — всё от useCurrentFrame(), детерминировано.
 // Hud · Punch · ParticleText · CardTunnel · Stripes · Halftone · ShapeGrid · Rewind · DropWord · Orbit
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AbsoluteFill, Freeze, continueRender, delayRender, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Freeze, Img, continueRender, delayRender, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { clamp, ease } from "./index";
 
 export const rnd = (i: number) => {
@@ -44,13 +44,16 @@ export const Punch: React.FC<{ text: string; at: number; font: string; size: num
   const f = useCurrentFrame();
   const p = prog(f, at, at + 7);
   const fill: React.CSSProperties = image
-    ? { backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundPosition: pos, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }
+    ? // фото внутри букв возможно только через background-clip:text; загрузку ждёт скрытый <Img> ниже
+      // eslint-disable-next-line @remotion/no-background-image
+      { backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundPosition: pos, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }
     : { color };
   return (
     <div style={{ position: "absolute", left, width, top, translate: "0 -50%", display: "flex", justifyContent: "center", opacity: f < at ? 0 : 1 }}>
       <div style={{ fontFamily: font, fontWeight: weight, fontSize: size, lineHeight: 1, letterSpacing: -size * 0.03, whiteSpace: "nowrap", scale: String(interpolate(p, [0, 1], [1.12, 1])), rotate: `${interpolate(p, [0, 1], [rot * 2, rot])}deg`, filter: `blur(${interpolate(p, [0, 0.5, 1], [10, 2, 0])}px)`, ...fill }}>
         {text}
       </div>
+      {image && <Img src={image} style={{ position: "absolute", width: 1, height: 1, opacity: 0 }} />}
     </div>
   );
 };
