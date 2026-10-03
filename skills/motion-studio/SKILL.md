@@ -24,6 +24,7 @@ description: Полный скилл моушн-графики КОДОМ чер
 | Один из 16 премиум-эффектов в бренде | любой | `.../motion-effects/RECIPE.md` + `references/effects.md` |
 | 3D-титры (Three.js) | любой | `.../title-sequence-3d/RECIPE.md` |
 | Промо рассылки / GIF-обложка / сравнение 3 моделей | любой | `newsletter-promo`, `loop-cover`, `model-showdown` RECIPE.md |
+| Сгенерированный моушн (Vox-коллаж, тушь на бумаге, вектор, клей) + правка видео одной фразой — Higgsfield MCP + Seedance 2.5 (ПЛАТНО: цена → «да») | Higgsfield + Remotion (сборка) | `references/ai-motion-higgsfield.md` |
 | Говорящая голова + графика сверху, подкаст-нарезка, YouTube 16:9 (12 стилей: канвас, стекло, постер, сцены, PRISM, ORBIT…) | Remotion | `references/saint4ai.md` → `references/saint4ai/` |
 | Субтитры / дизайн-карточки на говорящую голову | HyperFrames (или Remotion `KaraokeCaptions`) | `references/hyperframes.md` |
 | Ролик под музыку (бит-синк) | HyperFrames | `references/hyperframes.md` |

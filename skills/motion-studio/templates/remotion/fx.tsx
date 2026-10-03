@@ -287,3 +287,49 @@ export const RollText: React.FC<{ from: string; to: string; at: number; style?: 
     </span>
   );
 };
+
+// ── Оформление ИИ-моушна (рилсы 13–14): строка промпта поверх видео и рукописная обводка маркером ──
+
+// Строка промпта как в Claude/чате: печатает фразу, мигает каретка, в конце «нажимается» стрелка отправки
+export const PromptBar: React.FC<{ text: string; at: number; cps?: number; x?: number; y?: number; w?: number; font: string; accent?: string }> = ({
+  text, at, cps = 24, x = 140, y = 900, w = 680, font, accent = "#D97757",
+}) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const n = Math.max(0, Math.min(text.length, Math.floor(((f - at) / fps) * cps)));
+  const done = n >= text.length;
+  const sendAt = at + Math.ceil((text.length / cps) * fps) + 6;
+  const press = interpolate(f, [sendAt - 2, sendAt, sendAt + 6], [1, 0.85, 1], clamp);
+  const appear = prog(f, at - 8, at);
+  return (
+    <div style={{ position: "absolute", left: x, top: y, width: w, display: "flex", alignItems: "center", gap: 14, padding: "18px 18px 18px 26px", borderRadius: 24, backgroundColor: "rgba(255,255,255,0.96)", boxShadow: "0 20px 50px rgba(0,0,0,0.25)", opacity: appear, translate: `0 ${(1 - appear) * 20}px`, fontFamily: font }}>
+      <span style={{ color: "#999", fontSize: 30 }}>+</span>
+      <span style={{ flex: 1, fontSize: 28, color: "#1a1a1a", whiteSpace: "nowrap", overflow: "hidden" }}>
+        {text.slice(0, n)}
+        <span style={{ display: "inline-block", width: 2, height: 30, marginLeft: 2, verticalAlign: "middle", backgroundColor: "#1a1a1a", opacity: !done || Math.floor(f / 15) % 2 ? 1 : 0 }} />
+      </span>
+      <span style={{ width: 52, height: 52, borderRadius: 14, backgroundColor: accent, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30, fontWeight: 700, scale: String(press) }}>↑</span>
+    </div>
+  );
+};
+
+// Рукописная обводка маркером: неровная петля прорисовывается за dur кадров
+export const MarkerCircle: React.FC<{ cx: number; cy: number; rx: number; ry: number; at: number; dur?: number; color?: string; width?: number; seed?: number }> = ({
+  cx, cy, rx, ry, at, dur = 14, color = "#FFD400", width = 14, seed = 1,
+}) => {
+  const f = useCurrentFrame();
+  const { width: W, height: H } = useVideoConfig();
+  const p = prog(f, at, at + dur, (t) => 1 - Math.pow(1 - t, 2));
+  const pts: string[] = [];
+  for (let i = 0; i <= 64; i++) {
+    const a = (i / 64) * Math.PI * 2.25 - Math.PI / 2; // чуть больше оборота — «нахлёст» как от руки
+    const j = 1 + (rnd(seed * 100 + i) - 0.5) * 0.08;
+    pts.push(`${cx + Math.cos(a) * rx * j},${cy + Math.sin(a) * ry * j}`);
+  }
+  const len = Math.PI * (rx + ry) * 1.15;
+  return (
+    <svg width={W} height={H} style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+      <polyline points={pts.join(" ")} fill="none" stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={len} strokeDashoffset={len * (1 - p)} />
+    </svg>
+  );
+};

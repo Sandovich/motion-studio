@@ -1,4 +1,4 @@
-# Разбор 12 рилсов о моушн-графике через Claude Code (октябрь 2026)
+# Разбор 14 рилсов о моушн-графике через Claude Code (октябрь 2026)
 
 Каждый ролик: о чём, дословные промпты, команды, и покадровый разбор визуальных приёмов. Это первоисточник для prompts.md и techniques.md.
 
@@ -125,3 +125,8 @@
   8. **IDENTITY**: буквы «CLAUDE» падают и подпрыгивают на место, вокруг орбита-эллипс, подпись «MOTION DESIGNER / Showreel 2026», финал — одна оранжевая линия на тёмном.
 - Палитра: почти чёрный, оранжевый, лайм, фиолетово-синий, белый; два шрифта — жирный гротеск + курсивный serif.
 - Как у нас: HUD — простой оверлей-компонент; главы 1, 2, 3, 6, 7, 8 — чистый Remotion (interpolate/spring, SVG, сетки); частицы — Three.js Points или Canvas 2D (5 000 точек тянет и без GPU); метаболы — шейдер (raymarching/SDF) через `@remotion/three` — самая тяжёлая часть, без видеокарты рендер медленный, упрощение — 2D-«гуи»-капли с blur+contrast или предрендер.
+
+## Ролики 13–14 — DceFNdVM-NG и DagCtA_MA5s (Sanjar Nai-Chien) — ИИ-МОУШН ЧЕРЕЗ HIGGSFIELD MCP + SEEDANCE 2.5
+- 13: Vox-коллаж (рваная бумага, вырезки зданий, гравюры, жёлтый круг, рука-гравюра, обводки маркером, счётчик просмотров), правка видео одной фразой в строке промпта («сменить фон на синий», «заменить здание», «добавить падающие монеты», «убрать фон»); сверху анимация, снизу говорящая голова, слово-субтитр капсом.
+- 14: конвейер в Claude — референсы (Pinterest API) → варианты раскадровки в стиле («Storyboard a 15-sec origami samurai short, ink wash on torn paper, indigo and bone») → «Use motion design skills to make a motion video with Higgsfield MCP» → анимация с единым стилем; стили: тушь на рваной бумаге, плоский вектор, 3D, коллажи.
+- Как повторять у нас: `ai-motion-higgsfield.md` (стили Higgsfield Mixed Media / Paper collage / Editorial Motion Graphics, Seedance 2.5 omni_reference / video_edit / draft 480p, цены, каркас промпта Vox-коллажа) + оформление в Remotion: `PromptBar`, `MarkerCircle` (fx.tsx).
