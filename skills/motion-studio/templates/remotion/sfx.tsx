@@ -47,6 +47,33 @@ export const SFX_LEAD: Partial<Record<SfxName, number>> = {
 const src = (s: SfxName | string) =>
   s.startsWith("http") ? s : staticFile(`sfx/${s}.wav`);
 
+// Набор записанных звуков: <SfxPack.Provider value={PRO_PACK}> подменяет синтезированные звуки на настоящие записи
+// (scripts/fetch-sound-pack.sh → public/sfx-pro). Имена те же, поэтому сцены переписывать не нужно.
+export type PackEntry = { src: string; len: number; lead?: number; gain?: number };
+export const SfxPack = createContext<Record<string, PackEntry> | null>(null);
+const pk = (name: string, len: number, lead = 0, gain = 1): PackEntry => ({ src: `sfx-pro/${name}.wav`, len, lead, gain });
+// длительность — до спада звука, lead — где пик (чтобы пик попал ровно в кадр события); замерено скриптом
+export const PRO_PACK: Record<string, PackEntry> = {
+  whoosh: pk("whoosh", 1.2, 0.98, 0.8),
+  "whoosh-soft": pk("whoosh-soft", 0.6, 0.26, 0.9),
+  "whoosh-slide": pk("whoosh-slide", 0.5, 0.11),
+  hit: pk("hit", 1.5, 0.44, 0.9),
+  pop: pk("pop", 0.2, 0.04, 0.8),
+  "pop-high": pk("pop-soft", 0.25, 0.01, 0.9),
+  shutter: pk("shutter", 0.45, 0.03),
+  ding: pk("ding", 0.7, 0.03, 0.7),
+  riser: pk("riser", 1.7, 1.61, 0.8),
+  rewind: pk("rewind", 1.75, 0.28),
+  glitch: pk("glitch", 0.5, 0.34, 0.7),
+  "key-enter": pk("click", 0.3, 0.07),
+  click: pk("click", 0.3, 0.07),
+  "key-space": pk("key-5", 0.12, 0.01),
+  ...Object.fromEntries([1, 2, 3, 4].map((k) => [`key-${k}`, pk(`key-${k * 2 - (k % 2)}`, 0.12, 0.01)])),
+  "ui-click": pk("ui-click", 0.1, 0.01),
+};
+// Вариант для моды: вспышки образов — затвор камеры
+export const FASHION_PACK: Record<string, PackEntry> = { ...PRO_PACK, "pop-high": PRO_PACK.shutter };
+
 // Глушитель: всё внутри <SfxMute.Provider value> молчит (перемотка, повтор куска ролика через <Freeze>).
 export const SfxMute = createContext(false);
 
@@ -61,9 +88,19 @@ export const Sfx: React.FC<{
 }> = ({ s, at, volume = 0.6, lead = true, rate = 1 }) => {
   const { fps } = useVideoConfig();
   const muted = useContext(SfxMute);
+  const pack = useContext(SfxPack);
+  const pro = pack?.[s];
   const shift = lead ? Math.round((SFX_LEAD[s as SfxName] ?? 0) * fps) : 0;
   const dur = Math.ceil(((LEN[s as SfxName] ?? 2) / rate) * fps) + 1;
   if (muted) return null;
+  if (pro) {
+    const sh = lead ? Math.round((pro.lead ?? 0) * fps) : 0;
+    return (
+      <Sequence from={Math.max(0, at - sh)} durationInFrames={Math.ceil((pro.len / rate) * fps) + 1} layout="none" name={`♪ ${s}`}>
+        <Audio src={staticFile(pro.src)} volume={volume * (pro.gain ?? 1)} playbackRate={rate} />
+      </Sequence>
+    );
+  }
   return (
     <Sequence
       from={Math.max(0, at - shift)}

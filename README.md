@@ -1,6 +1,6 @@
 # motion-studio
 
-**Промо скилла (42 с, всё — кодом):** [examples/skill-promo.mp4](examples/skill-promo.mp4) — типографика в бит, частицы, 3D-туннель, табло, интерфейсы, iPhone, звук в кадр, проверка безопасных зон, перемотка.
+**Промо скилла (61 с, всё — кодом):** [examples/skill-promo.mp4](examples/skill-promo.mp4) — по главе на каждый из разобранных рилсов (Grafigator, Dami ×2, «Дубль», Ev Astapov, Riccardo, Ледовских, Чингиз, Лямин ×2, Mr. Pynk, brag, saint4ai) + наша проверка безопасных зон. Перед рендером: `bash scripts/fetch-sound-pack.sh` (записанные звуки и музыка Mixkit, в репо не кладутся).
 
 Скилл для Claude Code, который делает моушн-видео **кодом**: Remotion (основной движок) и HyperFrames. Каждый кадр — код, рендер локально в MP4, без After Effects и генераторов видео.
 

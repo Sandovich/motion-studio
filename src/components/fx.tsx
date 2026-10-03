@@ -11,8 +11,8 @@ export const rnd = (i: number) => {
 const prog = (f: number, a: number, b: number, easing = ease) => interpolate(f, [a, b], [0, 1], { ...clamp, easing });
 
 // ── HUD-рамка: уголки, подпись, таймкод, глава, шкала (декор, data-fit="decor") ──
-export const Hud: React.FC<{ title: string; right?: string; chapters: [number, string][]; total: number; font: string; dark?: boolean; shownFrame?: number }> = ({
-  title, right = "", chapters, total, font, dark = true, shownFrame,
+export const Hud: React.FC<{ title?: string; right?: string; chapters?: [number, string][]; total: number; font?: string; dark?: boolean; shownFrame?: number; labels?: boolean }> = ({
+  title = "", right = "", chapters = [], total, font = "monospace", dark = true, shownFrame, labels = true,
 }) => {
   const f = useCurrentFrame();
   const shown = shownFrame ?? f;
@@ -26,6 +26,8 @@ export const Hud: React.FC<{ title: string; right?: string; chapters: [number, s
       {corner({ right: 40, top: 70, borderRightWidth: 3, borderTopWidth: 3 })}
       {corner({ left: 40, bottom: 70, borderLeftWidth: 3, borderBottomWidth: 3 })}
       {corner({ right: 40, bottom: 70, borderRightWidth: 3, borderBottomWidth: 3 })}
+      {labels && (
+        <>
       <div style={{ position: "absolute", left: 90, top: 80 }}>{title}</div>
       <div style={{ position: "absolute", right: 90, top: 80 }}>TC 00:00:{tc}</div>
       <div style={{ position: "absolute", left: 90, bottom: 80 }}>{chapter}</div>
@@ -33,6 +35,8 @@ export const Hud: React.FC<{ title: string; right?: string; chapters: [number, s
       <div style={{ position: "absolute", left: 90, right: 90, bottom: 124, height: 2, backgroundColor: c, opacity: 0.35 }}>
         <div style={{ width: `${Math.min(1, shown / total) * 100}%`, height: 2, backgroundColor: c }} />
       </div>
+        </>
+      )}
     </AbsoluteFill>
   );
 };
@@ -235,5 +239,51 @@ export const Orbit: React.FC<{ cx: number; cy: number; rx: number; ry: number; c
       <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke={color} strokeWidth={4} strokeDasharray={len} strokeDashoffset={len * (1 - p)} transform={`rotate(${tilt} ${cx} ${cy})`} />
       <circle cx={cx + rx * Math.cos(f * 0.1)} cy={cy + ry * Math.sin(f * 0.1)} r={11} fill={color} opacity={p} transform={`rotate(${tilt} ${cx} ${cy})`} />
     </svg>
+  );
+};
+
+// ── «Плавность как у Dami» (разбор рилса 11): живой фон на весь ролик, сцены внахлёст с наездом-размытием ──
+
+// Живой градиент: большие мягкие пятна плывут по синусам (без filter: blur — только radial-gradient, быстро рендерится)
+export const LivingGradient: React.FC<{ base: string; blobs: { color: string; x: number; y: number; r: number; speed?: number; phase?: number }[] }> = ({ base, blobs }) => {
+  const f = useCurrentFrame();
+  const bg = blobs
+    .map((b, i) => {
+      const sp = b.speed ?? 1, ph = b.phase ?? i * 1.7;
+      const x = b.x + Math.sin(f * 0.012 * sp + ph) * 18, y = b.y + Math.cos(f * 0.009 * sp + ph * 1.3) * 14;
+      return `radial-gradient(circle ${b.r}px at ${x}% ${y}%, ${b.color} 0%, transparent 100%)`;
+    })
+    .join(", ");
+  return <AbsoluteFill style={{ backgroundColor: base, background: `${bg}, ${base}` }} />;
+};
+
+// Сцена с плавным входом и выходом: наезд + размытие + прозрачность за T кадров. Соседние сцены ставить внахлёст на T.
+export const SceneFx: React.FC<{ dur: number; T?: number; enter?: "zoom" | "none"; exit?: "zoom" | "none"; drift?: number; children: React.ReactNode }> = ({
+  dur, T = 12, enter = "zoom", exit = "zoom", drift = 0.025, children,
+}) => {
+  const f = useCurrentFrame();
+  const inP = enter === "zoom" ? prog(f, 0, T) : 1;
+  const outP = exit === "zoom" ? prog(f, dur - T, dur, (t) => t * t) : 0;
+  const scale = interpolate(inP, [0, 1], [0.9, 1]) * interpolate(outP, [0, 1], [1, 1.14]) * (1 + drift * (f / dur));
+  return (
+    // пока сцена въезжает/уезжает, текст не читается — проверку безопасных зон в эти кадры не делаем
+    <AbsoluteFill data-fit={inP < 1 || outP > 0 ? "decor" : undefined} style={{ opacity: inP * (1 - outP), scale: String(scale), transformOrigin: "480px 960px", filter: `blur(${(1 - inP) * 14 + outP * 16}px)` }}>
+      {children}
+    </AbsoluteFill>
+  );
+};
+
+// Перекатка: слово уезжает вверх, новое въезжает снизу (как барабан), с пружиной
+export const RollText: React.FC<{ from: string; to: string; at: number; style?: React.CSSProperties }> = ({ from, to, at, style }) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const s = spring({ frame: f - at, fps, config: { damping: 14, stiffness: 140 } });
+  return (
+    <span style={{ position: "relative", display: "inline-block", overflow: "hidden", verticalAlign: "bottom", ...style }}>
+      {/* ширина — по более длинному слову, иначе новое обрежется */}
+      <span style={{ display: "block", visibility: "hidden", height: 0 }}>{from.length > to.length ? from : to}</span>
+      <span style={{ display: "block", textAlign: "right", translate: `0 ${-s * 100}%`, opacity: 1 - s }}>{from}</span>
+      <span style={{ position: "absolute", left: 0, right: 0, top: 0, textAlign: "right", translate: `0 ${(1 - s) * 100}%`, opacity: s }}>{to}</span>
+    </span>
   );
 };

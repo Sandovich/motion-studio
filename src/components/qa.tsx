@@ -60,7 +60,16 @@ export const FitProbe: React.FC<{ zone?: typeof REELS_SAFE }> = ({ zone }) => {
         if (el.closest("[data-fit='ignore']")) continue;
         const text = ownText(el);
         if (!text || !visible(el)) continue;
-        const r = el.getBoundingClientRect();
+        // меряем сами буквы (Range по текстовым узлам), а не блок: блок шириной 720 с текстом по центру — не ошибка
+        const rng = document.createRange();
+        let r: DOMRect | null = null;
+        for (const n of el.childNodes) {
+          if (n.nodeType !== 3 || !(n.textContent ?? "").trim()) continue;
+          rng.selectNodeContents(n);
+          const b = rng.getBoundingClientRect();
+          r = r ? new DOMRect(Math.min(r.left, b.left), Math.min(r.top, b.top), Math.max(r.right, b.right) - Math.min(r.left, b.left), Math.max(r.bottom, b.bottom) - Math.min(r.top, b.top)) : b;
+        }
+        if (!r) continue;
         if (r.width < 2 || r.height < 2) continue;
         const x = (r.left - rb.left) * k, y = (r.top - rb.top) * k, w = r.width * k, h = r.height * k;
         const label = `«${text.slice(0, 28)}»`;

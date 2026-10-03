@@ -5,6 +5,7 @@ import { Showcase } from "./Showcase";
 import { Tutorial } from "./Tutorial";
 import { FitTest } from "./FitTest";
 import { SP, SkillPromo } from "./SkillPromo";
+import { SP2, SkillPromo2 } from "./SkillPromo2";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
       />
       <Composition id="SkillPromo" component={SkillPromo} durationInFrames={SP.end} fps={30} width={1080} height={1920} />
+      <Composition id="SkillPromo2" component={SkillPromo2} durationInFrames={SP2.end} fps={30} width={1080} height={1920} />
       <Composition id="FitTest" component={FitTest} durationInFrames={30} fps={30} width={1080} height={1920} />
     </>
   );
