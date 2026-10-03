@@ -1,6 +1,6 @@
 # motion-studio
 
-**Промо скилла (61 с, всё — кодом):** [examples/skill-promo.mp4](examples/skill-promo.mp4) — по главе на каждый из разобранных рилсов (Grafigator, Dami ×2, «Дубль», Ev Astapov, Riccardo, Ледовских, Чингиз, Лямин ×2, Mr. Pynk, brag, saint4ai) + наша проверка безопасных зон. Перед рендером: `bash scripts/fetch-sound-pack.sh` (записанные звуки и музыка Mixkit, в репо не кладутся).
+**Промо скилла (71 с, всё — кодом):** [examples/skill-promo.mp4](examples/skill-promo.mp4) — по главе на каждый из разобранных рилсов (Grafigator, Dami ×2, «Дубль», Ev Astapov, Riccardo, Ледовских, Чингиз, Лямин ×2, Mr. Pynk, brag, saint4ai) + Vox-коллаж с правкой одной фразой и конвейер Higgsfield (рилсы 13–14), витрина пакетов Remotion (переходы, paths, shapes, noise, rough-notation, визуализация звука) + наша проверка безопасных зон. Перед рендером: `bash scripts/fetch-sound-pack.sh` (записанные звуки и музыка Mixkit, в репо не кладутся).
 
 Скилл для Claude Code, который делает моушн-видео **кодом**: Remotion (основной движок) и HyperFrames. Каждый кадр — код, рендер локально в MP4, без After Effects и генераторов видео.
 

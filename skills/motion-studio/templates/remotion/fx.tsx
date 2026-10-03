@@ -245,8 +245,9 @@ export const Orbit: React.FC<{ cx: number; cy: number; rx: number; ry: number; c
 // ── «Плавность как у Dami» (разбор рилса 11): живой фон на весь ролик, сцены внахлёст с наездом-размытием ──
 
 // Живой градиент: большие мягкие пятна плывут по синусам (без filter: blur — только radial-gradient, быстро рендерится)
-export const LivingGradient: React.FC<{ base: string; blobs: { color: string; x: number; y: number; r: number; speed?: number; phase?: number }[] }> = ({ base, blobs }) => {
-  const f = useCurrentFrame();
+// offset — сдвиг времени: внутри Sequence передать её начало, тогда фон непрерывен через все сцены
+export const LivingGradient: React.FC<{ base: string; blobs: { color: string; x: number; y: number; r: number; speed?: number; phase?: number }[]; offset?: number }> = ({ base, blobs, offset = 0 }) => {
+  const f = useCurrentFrame() + offset;
   const bg = blobs
     .map((b, i) => {
       const sp = b.speed ?? 1, ph = b.phase ?? i * 1.7;

@@ -7,8 +7,17 @@
   "private": true,
   "dependencies": {
     "@remotion/cli": "4.0.532",
+    "@remotion/effects": "4.0.532",
     "@remotion/google-fonts": "4.0.532",
+    "@remotion/layout-utils": "4.0.532",
     "@remotion/media": "4.0.532",
+    "@remotion/media-utils": "4.0.532",
+    "@remotion/motion-blur": "4.0.532",
+    "@remotion/noise": "4.0.532",
+    "@remotion/paths": "4.0.532",
+    "@remotion/rough-notation": "4.0.532",
+    "@remotion/shapes": "4.0.532",
+    "@remotion/transitions": "4.0.532",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.532"

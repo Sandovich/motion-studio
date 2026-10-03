@@ -77,6 +77,16 @@
 | `IPhone` + `StatusBarIOS`, `HomeBar`, `Touch`, `IgIconReal`, `TgIconReal` | реалистичный iPhone: титановая рамка, кнопки, Dynamic Island, блик, 3D-наклон; статус-бар iOS; касание как в записи экрана |
 Приём «портал через букву»: круг на месте буквы «О» (inline-элемент) масштабируется ×30 и открывает следующую сцену. Склейки — на кратные 15 кадрам (120 BPM, `beat.wav`, `<Audio loop>`). Шрифты с кириллицей под моду/шоурил: Unbounded 900 (удары), Prata (Didone, «как Vogue»), Cormorant Garamond italic (строки), JetBrains Mono (HUD).
 
+## Вёрстка без «кривизны» (фидбек 04.10: «он кривой весь, всё поехало»)
+- **Одна сетка на весь ролик:** всё по центру кадра (x = 540); текст — колонка **600 px (x 240–840)**: симметрично и не под кнопками Instagram. Не центрировать текст по 480 (центр зоны), если телефоны/карточки стоят по 540 — глаз видит перекос.
+- **Размер заголовков — `fitText` из `@remotion/layout-utils`** (после загрузки шрифта: `useFit`/`Title` в `templates/remotion/promo/kit.tsx`), а не на глаз; у слов-строк самое длинное слово гарантированно влезает в колонку.
+- Составные сцены — через `Center` (блок по центру заданной ширины), подписи — под блоком, а не сбоку.
+- Проверка: кадры из середины каждой главы с красной линией по центру (`drawbox` в ffmpeg) + `qa-fit` (меряет точные границы букв).
+
+## Переходы из пакета Remotion (remotion.dev/docs/transitions)
+`<TransitionSeries>` между главами, у соседних стыков разные: `slide`, `iris`, `flip`, `clockWipe`, `wipe`, `fade` (+ `springTiming({config:{damping:200}})`). **Шейдерные** (`crossZoom`, `filmBurn`, `crosswarp`, `ripple`, `bookFlip`, `zoomBlur`, `dreamyZoom`, `blurSlide`…) требуют HTML-in-canvas (Chrome 149+) — в нашем рендере дают простую склейку, проверять стиллом перед использованием. Световая вспышка — `lightLeak` (`@remotion/effects`) на `<Solid>` поверх стыка, `mixBlendMode: screen`. Каждой главе — свой непрозрачный фон (живой градиент с `offset` = начало главы), иначе iris/clock-wipe показывают обе сцены сразу. Проверку зон в кадры перехода не делать (`TransitionGuard` → `data-fit="decor"`).
+Другие пакеты, проверенные в промо: `@remotion/paths` (`evolvePath` — линия рисуется), `@remotion/shapes` (Star, Triangle…), `@remotion/noise` (`noise2D` — поле точек), `@remotion/rough-notation` (рукописные Highlight/Circle — лучше самописной обводки), `@remotion/media-utils` (`useWindowedAudioData` + `visualizeAudio` — эквалайзер по музыке ролика).
+
 ## Плавность как у Dami (рилсы 5 и 11) — по умолчанию для промо
 Фидбек: рубленые склейки на каждый удар выглядят дёшево, у Dami «прикольнее и плавнее». Правила:
 1. **Один живой фон на весь ролик** — `LivingGradient` (мягкие пятна плывут по синусам); сцены с прозрачным фоном лежат поверх.
