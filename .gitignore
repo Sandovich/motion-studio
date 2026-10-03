@@ -9,3 +9,7 @@ out
 # Скиллы Remotion ставятся заново: npx skills experimental_install (skills-lock.json)
 .agents
 .claude
+
+# Личные материалы клиентов — не в публичный репо
+src/private
+public/private

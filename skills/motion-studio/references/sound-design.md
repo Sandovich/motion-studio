@@ -22,6 +22,7 @@ node scripts/make-sfx.mjs 40                                  # public/sfx/*.wav
 | `ding` | успех, «готово», галочка, уведомление |
 | `riser` | нарастание перед кульминацией или финалом |
 | `bed` | музыкальная подложка: тёплый пэд Am–F–C–G, лёгкая пульсация 120 BPM |
+| `beat` | бит 120 BPM на 24 с: бочка в каждую долю, хлопок на 2 и 4, хэты, бас. Удар = 15 кадров при 30 fps, склейки ставить на кратные 15. Для динамичных промо; «дроп» = заглушить бит на 12–15 кадров перед финалом |
 
 Вместо имени можно передать URL: `https://remotion.media/` + `whoosh.wav`, `whip.wav`, `switch.wav`, `mouse-click.wav`, `ding.wav`, `shutter-modern.wav`, `page-turn.wav`, `vine-boom.wav`… Реальные записи: mixkit.co/free-sound-effects, pixabay.com/sound-effects, github.com/kapishdima/soundcn. Скачанные звуки кладутся в `public/sfx/`. Перед публикацией проверить их лицензию.
 

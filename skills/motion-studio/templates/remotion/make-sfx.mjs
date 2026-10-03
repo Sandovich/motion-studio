@@ -147,7 +147,43 @@ wav("pop-high", pop(203, 1600, 620), 0.7);
   wav("riser", s, 0.8);
 }
 
-// ── 7. Музыкальная подложка — тёплый пэд Am–F–C–G, 8 с на цикл ─────────
+// ── 7. Бит 120 BPM для динамичных роликов (бочка в каждую долю, хлопок на 2 и 4, хэты, бас Am–F–C–G) ──
+// 120 BPM при 30 fps = удар каждые 15 кадров → склейки ставить на кратные 15 кадры.
+{
+  const len = 24, s = buf(len), r = rng(601), beat = 0.5, hz = (m) => 440 * Math.pow(2, (m - 69) / 12);
+  const roots = [45, 41, 36, 43]; // A F C G (бас, по такту = 4 доли = 2 с)
+  const hpH = biquad("hp"), bpC = biquad("bp"), lpB = biquad("lp"), lpP = biquad("lp");
+  const chords = [[57, 60, 64], [57, 60, 65], [55, 60, 64], [55, 59, 62]];
+  let bassPh = 0;
+  for (let i = 0; i < s.length; i++) {
+    const t = i / SR, b = t / beat, n = Math.floor(b), tb = t - n * beat, bar = Math.floor(n / 4) % 4;
+    // бочка
+
+    const kick = Math.exp(-tb / 0.22) * Math.sin(TAU * (45 * tb + (110 * 0.03) * (1 - Math.exp(-tb / 0.03)))) + 0.3 * Math.exp(-tb / 0.003) * (r() * 2 - 1);
+
+    // хлопок на 2 и 4 (три коротких всплеска)
+    let clap = 0;
+    if (n % 2 === 1) for (const d of [0, 0.011, 0.023]) { const x = tb - d; if (x >= 0) clap += Math.exp(-x / (d === 0.023 ? 0.09 : 0.008)); }
+    clap = 0.5 * bpC(clap * (r() * 2 - 1), 1300, 0.9);
+    // хэты на восьмых (слабые доли громче), открытый на «и» четвёртой доли
+    const t8 = t % (beat / 2), off = Math.floor(t / (beat / 2)) % 2 === 1, open = off && n % 4 === 3;
+    const hat = (off ? 0.32 : 0.16) * Math.exp(-t8 / (open ? 0.12 : 0.025)) * hpH(r() * 2 - 1, 7500, 0.7);
+    // сайдчейн: всё, кроме бочки, «приседает» после удара
+    const duck = 0.35 + 0.65 * Math.min(1, tb / 0.18);
+    // бас на восьмых
+    const nf = hz(roots[bar] + (off ? 12 : 0));
+    bassPh += (TAU * nf) / SR;
+    const saw = Math.sin(bassPh) + 0.5 * Math.sin(2 * bassPh) + 0.33 * Math.sin(3 * bassPh) + 0.25 * Math.sin(4 * bassPh);
+    const bass = 0.42 * Math.exp(-t8 / 0.2) * lpB(saw, 420 + 600 * Math.exp(-t8 / 0.05), 1.1);
+    // тихий аккорд-пэд
+    const pad = chords[bar].reduce((a, m) => a + Math.sin(TAU * hz(m) * t) + 0.3 * Math.sin(TAU * hz(m) * 2.003 * t), 0) * 0.05;
+    s[i] = 0.9 * kick + clap + hat + duck * (bass + lpP(pad, 1800, 0.7));
+    s[i] = Math.tanh(s[i] * 1.2);
+  }
+  wav("beat", s, 0.85);
+}
+
+// ── 8. Музыкальная подложка — тёплый пэд Am–F–C–G, 8 с на цикл ─────────
 // Длина по аргументу: node scripts/make-sfx.mjs 40  → bed.wav на 40 с (по умолчанию 40).
 {
   const len = Number(process.argv[2]) || 40, s = buf(len), lp = biquad("lp"), r = rng(501);
