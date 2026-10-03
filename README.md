@@ -1,5 +1,7 @@
 # motion-studio
 
+**Промо скилла (42 с, всё — кодом):** [examples/skill-promo.mp4](examples/skill-promo.mp4) — типографика в бит, частицы, 3D-туннель, табло, интерфейсы, iPhone, звук в кадр, проверка безопасных зон, перемотка.
+
 Скилл для Claude Code, который делает моушн-видео **кодом**: Remotion (основной движок) и HyperFrames. Каждый кадр — код, рендер локально в MP4, без After Effects и генераторов видео.
 
 | Демо компонентов (`Showcase`, 12 с) | Первый тест (`Proof`, 8 с) |
@@ -51,6 +53,8 @@ npm run dev                                   # Studio — превью
 npx remotion render Showcase out/showcase.mp4 # рендер демо
 ```
 `src/components/index.tsx` — 9 компонентов: BlurWords (пословное проявление), CountUp, DrawPath, SplitFlap (табло), CircleWipe, TypingInput (печать в поле), KaraokeCaptions (субтитры), GlassCard, GlowBackground.
+
+**Шоурил-эффекты** (`src/components/fx.tsx`, `iphone.tsx`): Hud, Punch, ParticleText, CardTunnel, Stripes, Halftone, ShapeGrid, Rewind, DropWord, Orbit, реалистичный IPhone. Образец целиком — композиция `SkillPromo` (`npx remotion render SkillPromo out/promo.mp4`).
 
 **Звук** (`src/components/sfx.tsx`): `Sfx` (звук в кадр), `TypingSfx` (щелчок клавиши на каждый символ TypingInput + Enter), `WordSfx` (whoosh на слово), `MusicBed` (музыка с fade и приглушением под голос).
 ```bash

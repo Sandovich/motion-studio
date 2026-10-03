@@ -63,6 +63,20 @@
 - **Perspective shift** (слои страницы расходятся к одной точке схода) — эффект 13.
 - **3D-титры** (Three.js, ночная улица, неоновые вывески, bloom) — title-sequence-3d.
 
+## Шоурил-эффекты — готовые компоненты (`fx.tsx`, `iphone.tsx`)
+Собраны по разборам рилсов 11 (Dami) и 12 (Grafigator), проверены рендером в промо скилла (`examples/skill-promo.mp4`, исходник `templates/remotion/SkillPromo.tsx`).
+| Компонент | Что делает |
+|---|---|
+| `Hud` | студийная рамка: уголки, подпись, таймкод (умеет «мотать назад»), глава, шкала прогресса |
+| `Punch` | слово-удар на удар бита: влёт 1,12× с размытием и наклоном; заливка цветом или картинкой внутри букв (`image`) |
+| `ParticleText` | тысячи точек слетаются в текст (canvas, точки из растра шрифта), затем проявляется чёткий текст |
+| `CardTunnel` | 3D-туннель из карточек, летящих на камеру по спирали (CSS 3D, без WebGL) |
+| `Stripes` / `Halftone` / `ShapeGrid` | диагональные полосы-шторка в бит · полутон-растр, пульсирующий кругами · сетка фигур, вращающаяся волной |
+| `Rewind` | перемотка ◀◀ REW ×N: кусок ролика через `<Freeze>` крутится назад с VHS-полосами; звуки внутри глушить `<SfxMute.Provider value>` |
+| `DropWord` / `Orbit` | буквы падают и пружинят на место · эллипс-орбита прорисовывается, по ней бежит точка |
+| `IPhone` + `StatusBarIOS`, `HomeBar`, `Touch`, `IgIconReal`, `TgIconReal` | реалистичный iPhone: титановая рамка, кнопки, Dynamic Island, блик, 3D-наклон; статус-бар iOS; касание как в записи экрана |
+Приём «портал через букву»: круг на месте буквы «О» (inline-элемент) масштабируется ×30 и открывает следующую сцену. Склейки — на кратные 15 кадрам (120 BPM, `beat.wav`, `<Audio loop>`). Шрифты с кириллицей под моду/шоурил: Unbounded 900 (удары), Prata (Didone, «как Vogue»), Cormorant Garamond italic (строки), JetBrains Mono (HUD).
+
 ## Звук
 - Полный справочник и готовые компоненты — `sound-design.md` (свои звуки: клавиши ×4, whoosh, pop, hit, ding, riser, музыкальная подложка).
 - Remotion: готовые SFX `https://remotion.media/whoosh.wav`, `switch.wav`, `mouse-click.wav`, `ding.wav`, `shutter-modern.wav`, `page-turn.wav`, `whip.wav`… + больше: github.com/kapishdima/soundcn.

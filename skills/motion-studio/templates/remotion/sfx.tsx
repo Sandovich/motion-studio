@@ -1,6 +1,6 @@
 // Звуковой дизайн: SFX, привязанные к кадрам анимации.
-// Звуки — public/sfx/*.wav (генерируются: node scripts/make-sfx.mjs; шаблон скрипта лежит рядом — templates/remotion/make-sfx.mjs). Можно передать и URL (https://remotion.media/whoosh.wav).
-import React from "react";
+// Звуки — public/sfx/*.wav (генерируются: node scripts/make-sfx.mjs). Можно передать и URL (https://remotion.media/whoosh.wav).
+import React, { createContext, useContext } from "react";
 import { Audio } from "@remotion/media";
 import { Sequence, interpolate, staticFile, useVideoConfig } from "remotion";
 
@@ -47,6 +47,9 @@ export const SFX_LEAD: Partial<Record<SfxName, number>> = {
 const src = (s: SfxName | string) =>
   s.startsWith("http") ? s : staticFile(`sfx/${s}.wav`);
 
+// Глушитель: всё внутри <SfxMute.Provider value> молчит (перемотка, повтор куска ролика через <Freeze>).
+export const SfxMute = createContext(false);
+
 // ── Один звук в кадр `at` (локальный кадр текущей Sequence) ──────────────
 // lead=true сдвигает whoosh/riser раньше на SFX_LEAD, чтобы пик попал в `at`.
 export const Sfx: React.FC<{
@@ -57,8 +60,10 @@ export const Sfx: React.FC<{
   rate?: number;
 }> = ({ s, at, volume = 0.6, lead = true, rate = 1 }) => {
   const { fps } = useVideoConfig();
+  const muted = useContext(SfxMute);
   const shift = lead ? Math.round((SFX_LEAD[s as SfxName] ?? 0) * fps) : 0;
   const dur = Math.ceil(((LEN[s as SfxName] ?? 2) / rate) * fps) + 1;
+  if (muted) return null;
   return (
     <Sequence
       from={Math.max(0, at - shift)}
