@@ -31,9 +31,9 @@ export const Dubl: React.FC = () => {
   const rec = Math.floor(f / 15) % 2 === 0;
   const bg = f < 78 ? RED : board ? "#26282E" : "#121216";
   const rows: [string, string, string][] = [
-    ["ИДЕЯ", "РИЛС", "ВЗЛЁТ"],
-    ["ПРОМПТ", "КАДР", "ЕСТЬ"],
-    ["ЗВУК", "БИТ", "ДА"],
+    ["ИДЕЯ", "РИЛС", "ЖДЁТ"],
+    ["СЦЕНА", "МОНТАЖ", "ЖДЁТ"],
+    ["ЗВУК", "КОД", "ГОТОВ"],
   ];
   return (
     <AbsoluteFill style={{ backgroundColor: bg }}>
@@ -47,10 +47,12 @@ export const Dubl: React.FC = () => {
       </div>
       <div style={{ position: "absolute", right: 250, top: 330, fontFamily: F.mono, fontWeight: 700, fontSize: 26, color: CREAM }}>ДУБЛЬ 0{f < 78 ? 1 : f < 126 ? 2 : 3}</div>
 
-      {/* 1. «ТЕБЕ» */}
+      {/* 1. «ЕСТЬ ИДЕЯ?» */}
       {f < 40 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 960, translate: "0 -50%", textAlign: "center", fontFamily: F.unbounded, fontWeight: 900, fontSize: 180, letterSpacing: -7, color: CREAM, scale: String(interpolate(tebe, [0, 1], [1.4, 1])), opacity: 1 - globe }}>
-          ТЕБЕ
+        <div style={{ position: "absolute", left: 0, right: 0, top: 960, translate: "0 -50%", textAlign: "center", fontFamily: F.unbounded, fontWeight: 900, fontSize: 120, lineHeight: 1.05, letterSpacing: -5, color: CREAM, scale: String(interpolate(tebe, [0, 1], [1.4, 1])), opacity: 1 - globe }}>
+          ЕСТЬ
+          <br />
+          ИДЕЯ?
         </div>
       )}
       {/* 2. глобус «МИРУ» + текст по кругу */}
@@ -69,7 +71,7 @@ export const Dubl: React.FC = () => {
           ))}
           <g transform={`rotate(${f * 1.2} ${CX} 960)`}>
             <text fontFamily={F.unbounded} fontWeight={800} fontSize="28" fill={CREAM} letterSpacing="5">
-              <textPath href="#ring3">СКАЗАТЬ МИРУ • СКАЗАТЬ МИРУ • СКАЗАТЬ МИРУ •</textPath>
+              <textPath href="#ring3">ПОКАЖИ МИРУ • ПОКАЖИ МИРУ • ПОКАЖИ МИРУ •</textPath>
             </text>
           </g>
           <text x={CX} y={1000} textAnchor="middle" fontFamily={F.unbounded} fontWeight={900} fontSize="118" fill={CREAM} stroke="#C9301F" strokeWidth="6" paintOrder="stroke" transform={`rotate(-32 ${CX} 960)`}>
@@ -84,7 +86,7 @@ export const Dubl: React.FC = () => {
             <span>✈ ОТПРАВЛЕНИЕ</span>
             <span>09:03</span>
           </div>
-          <div style={{ marginTop: 22, textAlign: "center", fontFamily: F.onest, fontWeight: 600, fontSize: 36, color: "#FFFFFF", opacity: prog(f, 84, 90) }}>Но почему-то…</div>
+          <div style={{ marginTop: 22, textAlign: "center", fontFamily: F.onest, fontWeight: 600, fontSize: 36, color: "#FFFFFF", opacity: prog(f, 84, 90) }}>Но ролик всё не готов?</div>
           <div style={{ marginTop: 26, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 18, fontFamily: F.narrow, fontWeight: 700, fontSize: 22, color: "#8A8D96" }}>
             <span>РЕЙС</span>
             <span>КУДА</span>
@@ -112,10 +114,10 @@ export const Dubl: React.FC = () => {
           </div>
         </div>
       )}
-      {/* 4. «ТЕБЕ» + неоновая осциллограмма */}
+      {/* 4. «ПОЕХАЛИ.» + неоновая осциллограмма */}
       {wave && (
         <>
-          <div style={{ position: "absolute", left: 0, right: 0, top: 700, textAlign: "center", fontFamily: F.unbounded, fontWeight: 900, fontSize: 180, letterSpacing: -7, color: CREAM, opacity: prog(f, 126, 134) }}>ТЕБЕ</div>
+          <div style={{ position: "absolute", left: 0, right: 0, top: 700, textAlign: "center", fontFamily: F.unbounded, fontWeight: 900, fontSize: 84, letterSpacing: -4, color: CREAM, opacity: prog(f, 126, 134) }}>ПОЕХАЛИ.</div>
           <svg width="1080" height="1920" style={{ position: "absolute", inset: 0 }}>
             <path
               d={[...Array(91)].map((_, i) => {
@@ -192,16 +194,17 @@ export const Ev: React.FC = () => {
             const lime = rnd(i + 3) > 0.94;
             return <div key={i} style={{ position: "absolute", left: 105 + c * 126, top: 200 + r * 126, width: 110, height: 110, borderRadius: 10, backgroundColor: lime ? LIME : hot ? "#D6D6D6" : "#F0F0F0", scale: String(prog(f, 80 + ((c + r) % 10), 90 + ((c + r) % 10))) }} />;
           })}
+          <div style={{ position: "absolute", left: 0, right: 0, top: 820, height: 180, backgroundColor: "#FFFFFF", boxShadow: "0 0 60px 30px #FFFFFF", opacity: prog(f, 86, 94) }} />
           <div style={{ position: "absolute", left: 240, width: 600, top: 860, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: F.onest, fontWeight: 700, color: "#111" }}>
-            <span style={{ fontSize: 84, backgroundColor: "#F0F0F0", padding: "0 10px" }}>
+            <span style={{ fontSize: 96, letterSpacing: -3 }}>
               <CountUp from={0} to={90} start={88} duration={20} />%
             </span>
-            <span style={{ fontSize: 72, backgroundColor: "#F0F0F0", padding: "0 10px", opacity: prog(f, 100, 108) }}>понятно.</span>
+            <span style={{ fontSize: 72, color: "#6B7A00", opacity: prog(f, 100, 108) }}>понятно.</span>
           </div>
         </AbsoluteFill>
       )}
       {f >= 114 && (
-        <AbsoluteFill style={{ backgroundColor: LIME, clipPath: `circle(${live * 140}% at 50% 50%)`, alignItems: "center", justifyContent: "center" }}>
+        <AbsoluteFill style={{ backgroundColor: LIME, clipPath: `circle(${live * 140}% at 50% 80%)`, alignItems: "center", justifyContent: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 26, fontFamily: F.onest, fontWeight: 700, fontSize: 128, color: "#111" }}>
             <span style={{ width: 70, height: 70, borderRadius: 35, backgroundColor: "#FFFFFF", border: "18px solid #FFFFFF", boxShadow: "inset 0 0 0 14px #111", boxSizing: "border-box" }} />
             Live.
