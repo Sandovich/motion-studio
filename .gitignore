@@ -17,3 +17,6 @@ public/private
 # Записанные звуки и музыка Mixkit — только локально (лицензия запрещает выкладывать файлы отдельно)
 public/sfx-pro
 public/music
+
+# Видео спикера Mixkit (лицензия: только в роликах) — скачивается scripts/fetch-sound-pack.sh
+public/promo3/speaker.mp4

@@ -46,4 +46,9 @@ music() {
 music catwalk 371         # Cat Walk — Arulo (House)
 music tech-house 130      # Tech House vibes — Alejandro Magaña (Electronica)
 music deep-urban 623      # Deep Urban — Eugenio Mininni (House)
+
+# спикер для главы saint4ai в промо v4 (Mixkit 4834, бесплатная лицензия для видео): квадратный кроп 720×720, 7 с
+mkdir -p public/promo3
+curl -sfL -m 180 "https://assets.mixkit.co/videos/4834/4834-1080.mp4" -o "$TMP/speaker.mp4" && \
+  ffmpeg -y -hide_banner -loglevel error -ss 1 -t 7 -i "$TMP/speaker.mp4" -an -vf "crop=1080:1080:420:0,scale=720:720,fps=30" -c:v libx264 -crf 22 -pix_fmt yuv420p public/promo3/speaker.mp4 && echo "✓ спикер public/promo3/speaker.mp4"
 rm -rf "$TMP"
