@@ -140,7 +140,7 @@ const Final: React.FC = () => {
 };
 
 export const SkillPromo2: React.FC = () => {
-  const music = (fr: number) => interpolate(fr, [0, 4, SP2.rewind - 4, SP2.rewind, SP2.final - 2, SP2.final + 2, SP2.end - 20, SP2.end], [0, 0.5, 0.5, 0.1, 0.1, 0.55, 0.55, 0], clamp);
+  const music = (fr: number) => interpolate(fr, [0, 4, SP2.rewind - 4, SP2.rewind, SP2.final - 2, SP2.final + 2, SP2.end - 20, SP2.end], [0, 0.16, 0.16, 0.04, 0.04, 0.18, 0.18, 0], clamp);
   return (
     <SfxPack.Provider value={PRO_PACK}>
       <AbsoluteFill style={{ backgroundColor: C.ink }}>

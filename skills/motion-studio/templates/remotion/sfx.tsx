@@ -50,6 +50,8 @@ const src = (s: SfxName | string) =>
 // Набор записанных звуков: <SfxPack.Provider value={PRO_PACK}> подменяет синтезированные звуки на настоящие записи
 // (scripts/fetch-sound-pack.sh → public/sfx-pro). Имена те же, поэтому сцены переписывать не нужно.
 export type PackEntry = { src: string; len: number; lead?: number; gain?: number };
+// Записанные эффекты короткие: чтобы их было слышно поверх музыки, поднимаем их, а музыку держим ~на −15 дБ
+const PRO_BOOST = 1.6;
 export const SfxPack = createContext<Record<string, PackEntry> | null>(null);
 const pk = (name: string, len: number, lead = 0, gain = 1): PackEntry => ({ src: `sfx-pro/${name}.wav`, len, lead, gain });
 // длительность — до спада звука, lead — где пик (чтобы пик попал ровно в кадр события); замерено скриптом
@@ -97,7 +99,7 @@ export const Sfx: React.FC<{
     const sh = lead ? Math.round((pro.lead ?? 0) * fps) : 0;
     return (
       <Sequence from={Math.max(0, at - sh)} durationInFrames={Math.ceil((pro.len / rate) * fps) + 1} layout="none" name={`♪ ${s}`}>
-        <Audio src={staticFile(pro.src)} volume={volume * (pro.gain ?? 1)} playbackRate={rate} />
+        <Audio src={staticFile(pro.src)} volume={Math.min(1, volume * (pro.gain ?? 1) * PRO_BOOST)} playbackRate={rate} />
       </Sequence>
     );
   }
