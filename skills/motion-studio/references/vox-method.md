@@ -52,6 +52,21 @@
 - **Mixed Media (классика Vox):** светлый, тёплый жёлтый / off-white / тёмно-синий / коралловый. Текста в кадре нет, весь текст — кодом.
 - **Paper Diorama (кино-документалка):** мир из старых газет сепией, фигуры в костюмах с цензурными полосами, ОДИН жжёно-оранжевый акцент, высокая печать, вольфрамовый свет, тилт-шифт, FPV-камера со speed-ramp. Для денег, власти, геополитики, «расследований». Одна надпись на реквизите на сцену (1–2 слова).
 
+## 2а. Референсы с Pinterest (бесплатно, без логина и ключа)
+Скрипт `scripts/pinterest.py` из репозитория motion-studio (только стандартная библиотека + Pillow):
+```
+python scripts/pinterest.py search "vox style paper collage animation" -n 40 -o refs/vox
+python scripts/pinterest.py board https://www.pinterest.com/<user>/<board>/ -n 100 -o refs/board
+python scripts/pinterest.py pin https://www.pinterest.com/pin/<id>/ -o refs/one --orig
+python scripts/pinterest.py similar <id|ссылка> -n 30 -o refs/similar
+```
+В папке — картинки `NN_<id>`, `pins.tsv` (ссылка на пин, домен и ссылка-источник, описание, размер) и `sheet.jpg` с номерами: смотреть лист и выбирать по номерам. По умолчанию качается 736 px, оригиналы — `--orig`.
+- Хорошие запросы: `vox style collage`, `editorial collage animation`, `paper cutout collage`, `halftone collage poster`, `vintage engraving cutout`, `mixed media collage motion design`, `paper diorama newspaper`, `styleframe collage`; плюс тема ролика на английском.
+- Для чего: (1) мудборд и выбор палитры и композиции перед ключом стиля; (2) референс в Seedance/Nano Banana (путь B); (3) разбор приёмов (что вырезано, где акцент, как лежит текст).
+- **Права:** картинки с Pinterest чужие. Это референсы. В сам ролик — только с подписью источника (взять `source_link` из pins.tsv) или если источник — общественное достояние. В публичный репо ничего из `refs/` не коммитить.
+- «Похожие пины» без входа Pinterest не отдаёт: `similar` ищет по ключевым словам выбранного пина.
+- Из РФ связь с pinterest.com иногда пропадает на 1–2 минуты: скрипт сам повторяет запросы; если не помогло — подождать или включить VPN.
+
 ## 3. Путь A — кодом в Remotion (бесплатно)
 1. **Ассеты:** PD-гравюры и фото с Wikimedia Commons (API `generator=search`, `gsrnamespace=6`, `iiurlwidth=1600`; записывать в `SOURCES.tsv`) → вырезка `python scripts/cutout.py` (U²-Net) или rembg `isnet-general-use`. Штриховые гравюры вырезаются плохо: их вешать прямоугольником с рваным краем.
 2. **Голос черновика:** edge-tts (`pip install edge-tts`; русские голоса `ru-RU-SvetlanaNeural`, `ru-RU-DmitryNeural`; английские `en-US-ChristopherNeural`, `en-GB-RyanNeural`, `en-US-JennyNeural`):

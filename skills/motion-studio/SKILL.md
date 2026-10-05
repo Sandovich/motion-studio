@@ -32,6 +32,7 @@ description: Полный скилл моушн-графики КОДОМ чер
 | Горизонталь → готовый рилс | ffmpeg | `references/export-qa.md` §2 |
 | Повторить чужой ролик в своём стиле | любой | `references/recreation-guide.md` + prompts.md §8 |
 | Спек-реклама бренда со звуком | любой | `references/spec-ad-template.md` |
+| Референсы и мудборд с Pinterest (поиск, доска, пин, похожие → картинки + pins.tsv + лист с номерами), без логина | скрипт | `scripts/pinterest.py`, правила — `references/vox-method.md` §2а |
 | Звук: печать, whoosh, pop, hit, ding, музыка, мастер | Remotion | `references/sound-design.md` |
 | Динамичный шоурил/промо (главы по 1–3 с в бит, частицы, 3D-туннель, перемотка, реалистичный iPhone) | Remotion | `references/techniques.md` § «Шоурил-эффекты», образец `templates/remotion/SkillPromo.tsx` |
 По умолчанию — **Remotion** (если не сказано иное). Все рецепты Charlie написаны под «один HTML с `window.seek(seconds)`»; в Remotion то же самое = композиция, где всё вычисляется из `useCurrentFrame()` — рецепт (сцены, тайминги, правила, проверки) переносится 1:1.
