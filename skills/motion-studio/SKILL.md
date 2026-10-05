@@ -18,6 +18,7 @@ description: Полный скилл моушн-графики КОДОМ чер
 | Пользователь сказал «через Remotion», нужен Studio/параметры/прозрачный оверлей/карты | **Remotion** | `references/remotion-guide.md` + `templates/remotion/` |
 | Промо продукта/оффера/курса 30–45 с | Remotion или HF | `charlie-motion-graphics/skills/launch-video/RECIPE.md` |
 | Apple-стиль (менюбар, выемка → виджеты) | Remotion/HF | `.../apple-launch-film/RECIPE.md` |
+| **Вокс-эксплейнер с голосом** (коллаж гравюр на бумаге, сцена = 10 с = строка диктора, сквозной объект, fake-oner; кодом бесплатно или видеогенерацией по «да») | Remotion (+ edge-tts) | `references/vox-method.md` |
 | Эксплейнер «почему…?» 30–60 с | Remotion/HF | `.../vox-explainer/RECIPE.md` |
 | Анимированный график (петля) | любой | `.../animated-chart/RECIPE.md` |
 | Число-веха (частицы → число) | любой | `.../milestone-reveal/RECIPE.md` |
